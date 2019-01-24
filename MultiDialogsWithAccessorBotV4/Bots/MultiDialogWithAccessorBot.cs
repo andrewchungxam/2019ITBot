@@ -21,7 +21,9 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
         public DialogBotConversationStateAndUserStateAccessor DialogBotConversationStateAndUserStateAccessor { get; set; }
         
    
-        public static readonly string QnAMakerKey = "RoyaltyInfo2018";
+        //public static readonly string QnAMakerKey = "RoyaltyInfo2018";
+        public static readonly string QnAMakerKey = "GitHubEnterpriseFAQ";
+
         private readonly BotServices _services;
 
         public MultiDialogWithAccessorBot(DialogBotConversationStateAndUserStateAccessor accessor, BotServices services)
@@ -32,11 +34,13 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
 
             _dialogSet.Add(new TextPrompt("name"));
             _dialogSet.Add(new TextPrompt("colorName"));
+            _dialogSet.Add(new TextPrompt("linksName"));
             _dialogSet.Add(new TextPrompt("foodName"));
             _dialogSet.Add(new TextPrompt("thirdWaterName"));
 
             _dialogSet.Add(FoodWaterfallDialog.BotInstance);
             _dialogSet.Add(ColorWaterfallDialog.BotInstance);
+            _dialogSet.Add(LinksWaterfallDialog.BotInstance);
             _dialogSet.Add(NameWaterfallDialog.BotInstance);
 
             _dialogSet.Add(new ChoicePrompt("dialogChoice"));
@@ -44,6 +48,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
 
             _dialogSet.Add(new ChoicePrompt("confirmHero1"));
             //_dialogSet.Add(new ConfirmPrompt("confirmHero1"));
+            _dialogSet.Add(new ChoicePrompt("confirmHero1Links"));
             
             DialogBotConversationStateAndUserStateAccessor = accessor;
 
@@ -94,22 +99,28 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
                 var dialogContext = await _dialogSet.CreateContextAsync(turnContext, cancellationToken);
 
                 if (dialogContext != null)
-                { 
+                {
                     if (dialogContext.ActiveDialog != null)
                     {
                         if (dialogContext.ActiveDialog.Id == "thirdWaterName")
                         {
-                            var response = await _services.QnAServices[QnAMakerKey].GetAnswersAsync(turnContext);
-                            if (response != null && response.Length > 0)
+                            if (turnContext.Activity.Type == ActivityTypes.Message && turnContext.Activity.Text == "Back")
                             {
-                                await turnContext.SendActivityAsync(response[0].Answer, cancellationToken: cancellationToken);
+                                await dialogContext.CancelAllDialogsAsync();
+                            }
+                            else
+                            {
+                                var response = await _services.QnAServices[QnAMakerKey].GetAnswersAsync(turnContext);
+                                if (response != null && response.Length > 0)
+                                {
+                                    await turnContext.SendActivityAsync(response[0].Answer, cancellationToken: cancellationToken);
+                                }
                             }
                         }
                     }
                 }
 
-
-
+                
                 //POP OFF ANY DIALOG IF THE "FLAG IS SWITCHED" 
                 string didTypeNamestring = "";
                 if (turnContext.TurnState.ContainsKey("didTypeName"))

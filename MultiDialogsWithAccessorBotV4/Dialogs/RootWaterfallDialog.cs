@@ -50,6 +50,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
                     {
                         new Choice { Value = "Favorite Food" },
                         new Choice { Value = "Favorite Color" },
+                        new Choice { Value = "Favorite Links"},
                         new Choice { Value = "Third Waterfall" },
                     },
                 }, cancellationToken);
@@ -68,6 +69,10 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
                 return await stepContext.BeginDialogAsync(ColorWaterfallDialog.DialogId);
             }
 
+            if (chosenDialogResponse == "Favorite Links")
+            {
+                return await stepContext.BeginDialogAsync(LinksWaterfallDialog.DialogId);
+            }
             if (chosenDialogResponse == "Third Waterfall")
             {
                 return await stepContext.BeginDialogAsync(ThirdWaterfallDialog.DialogId);
