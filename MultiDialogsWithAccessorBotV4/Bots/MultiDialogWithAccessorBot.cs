@@ -87,7 +87,18 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
 
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
+                //Welcome to the Company IT Bot.  
 
+                if (myWelcomeUserState.DidBotWelcomeUser == false)
+                {
+                    myWelcomeUserState.DidBotWelcomeUser = true;
+                    // Update user state flag to reflect bot handled first user interaction.
+                    await _dialogBotConversationStateAndUserStateAccessor.WelcomeUserState.SetAsync(turnContext, myWelcomeUserState);
+                    await _dialogBotConversationStateAndUserStateAccessor.UserState.SaveChangesAsync(turnContext);
+
+                    await turnContext.SendActivityAsync($"Welcome to the Company IT Bot - the best, first stop for your IT needs.", cancellationToken: cancellationToken);
+
+                }
 
                 ////QNA
                 //// Check QnA Maker model

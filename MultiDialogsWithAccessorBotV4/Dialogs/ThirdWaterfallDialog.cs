@@ -29,25 +29,57 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
         /// <returns>A <see cref="VideoCard"/> the user can view and/or interact with.</returns>
         /// <remarks> Related types <see cref="CardAction"/>,
         /// <see cref="ActionTypes"/>, <see cref="MediaUrl"/>, and <see cref="ThumbnailUrl"/>.</remarks>
+        //private static VideoCard GetVideoCard()
+        //{
+        //    var videoCard = new VideoCard
+        //    {
+        //        Title = "Big Buck Bunny",
+        //        Subtitle = "by the Blender Institute",
+        //        Text = "Big Buck Bunny (code-named Peach) is a short computer-animated comedy film by the Blender Institute," +
+        //               " part of the Blender Foundation. Like the foundation's previous film Elephants Dream," +
+        //               " the film was made using Blender, a free software application for animation made by the same foundation." +
+        //               " It was released as an open-source film under Creative Commons License Attribution 3.0.",
+        //        Image = new ThumbnailUrl
+        //        {
+        //            Url = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Big_buck_bunny_poster_big.jpg/220px-Big_buck_bunny_poster_big.jpg",
+        //        },
+        //        Media = new List<MediaUrl>
+        //        {
+        //            new MediaUrl()
+        //            {
+        //                Url = "http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4",
+        //            },
+        //        },
+        //        Buttons = new List<CardAction>
+        //        {
+        //            new CardAction()
+        //            {
+        //                Title = "Learn More",
+        //                Type = ActionTypes.OpenUrl,
+        //                Value = "https://peach.blender.org/",
+        //            },
+        //        },
+        //    };
+
+        //    return videoCard;
+        //}
+
         private static VideoCard GetVideoCard()
         {
             var videoCard = new VideoCard
             {
-                Title = "Big Buck Bunny",
-                Subtitle = "by the Blender Institute",
-                Text = "Big Buck Bunny (code-named Peach) is a short computer-animated comedy film by the Blender Institute," +
-                       " part of the Blender Foundation. Like the foundation's previous film Elephants Dream," +
-                       " the film was made using Blender, a free software application for animation made by the same foundation." +
-                       " It was released as an open-source film under Creative Commons License Attribution 3.0.",
+                Title = "What is GitHub?",
+                //Subtitle = "by the Blender Institute",
+                Text = "Ever wondered how GitHub works? Let's see how Timmy and his team use GitHub.",
                 Image = new ThumbnailUrl
                 {
-                    Url = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Big_buck_bunny_poster_big.jpg/220px-Big_buck_bunny_poster_big.jpg",
+                    Url = "https://upload.wikimedia.org/wikipedia/commons/e/eb/Ei-sc-github.svg",
                 },
                 Media = new List<MediaUrl>
                 {
                     new MediaUrl()
                     {
-                        Url = "http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4",
+                        Url = "https://www.youtube.com/watch?v=w3jLJU7DT5E",
                     },
                 },
                 Buttons = new List<CardAction>
@@ -56,14 +88,13 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
                     {
                         Title = "Learn More",
                         Type = ActionTypes.OpenUrl,
-                        Value = "https://peach.blender.org/",
+                        Value = "https://enterprise.github.com/faq",
                     },
                 },
             };
 
             return videoCard;
         }
-
         private static async Task<DialogTurnResult> FirstStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
 
@@ -74,7 +105,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
 
                 // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
                 // Running a prompt here means the next WaterfallStep will be run when the users response is received.
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text($"THIRD WATERFALL STEP 1: This is the first step.  You can put your code in each of these steps."), cancellationToken);
+                //await stepContext.Context.SendActivityAsync(MessageFactory.Text($"THIRD WATERFALL STEP 1: This is the first step.  You can put your code in each of these steps."), cancellationToken);
 
                 var reply = stepContext.Context.Activity.CreateReply();
                 reply.Attachments = new List<Attachment>();
@@ -96,7 +127,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             //return await stepContext.PromptAsync("thirdWaterName", new PromptOptions { Prompt = MessageFactory.Text("What is your favorite color?") }, cancellationToken);
 
             //! DO NOT CHANGE THE NAME OF THIS DIALOG -- thirdWaterName -- iBOT CHECKS AND ALLOWS QNA ANSWERS THROUGH VIA THIS DIALOG
-            return await stepContext.PromptAsync("thirdWaterName", new PromptOptions { Prompt = MessageFactory.Text("What questions can I answer about the royals?") }, cancellationToken);
+            return await stepContext.PromptAsync("thirdWaterName", new PromptOptions { Prompt = MessageFactory.Text("What questions can I answer about GitHub?") }, cancellationToken);
         }
 
         private async Task<DialogTurnResult> NameConfirmStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)

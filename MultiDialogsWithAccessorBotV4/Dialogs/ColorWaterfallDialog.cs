@@ -56,7 +56,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
 
             //            return await stepContext.EndDialogAsync(null, cancellationToken);
 
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Thank you {botState.ITName}. "), cancellationToken);
+            await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Thank you {botState.ITName} "), cancellationToken);
 
             return await stepContext.PromptAsync("passResetBirthDate", new PromptOptions { Prompt = MessageFactory.Text("What is your birthdate? (Format: MM/DD/YYYY)") }, cancellationToken);
         }
@@ -111,7 +111,12 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             var botState = await (stepContext.Context.TurnState["DialogBotConversationStateAndUserStateAccessor"] as DialogBotConversationStateAndUserStateAccessor).TheUserProfile.GetAsync(stepContext.Context);
             botState.PassResetOTPDevice = stepContext.Result.ToString();
             await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Thank you. Your temporary password has been sent to your mobile device. Please immediately log in as it will expire in 4 minutes."), cancellationToken);
+            await stepContext.Context.SendActivityAsync(MessageFactory.Text($"We have also sent a notification of your password reset to your work email, your mobile device, and your listed personal email."), cancellationToken);
+
             //END-WITH SAVING STATE WITH ACCESSOR TO 'THEUSERSTATE'
+
+            await Task.Delay(7000);
+
 
             return await stepContext.EndDialogAsync(null, cancellationToken);
         }
