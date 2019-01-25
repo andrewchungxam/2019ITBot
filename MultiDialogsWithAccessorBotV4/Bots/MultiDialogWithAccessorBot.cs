@@ -36,6 +36,11 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             _dialogSet.Add(new TextPrompt("colorName"));
             _dialogSet.Add(new TextPrompt("linksName"));
             _dialogSet.Add(new TextPrompt("foodName"));
+            _dialogSet.Add(new TextPrompt("foodITEmail"));
+            _dialogSet.Add(new TextPrompt("passResetBirthDate"));
+            _dialogSet.Add(new TextPrompt("passResetPhoneNumber"));
+            _dialogSet.Add(new TextPrompt("passResetOTPDevice"));
+
             _dialogSet.Add(new TextPrompt("thirdWaterName"));
 
             _dialogSet.Add(FoodWaterfallDialog.BotInstance);

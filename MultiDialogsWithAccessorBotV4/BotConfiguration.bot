@@ -10,14 +10,16 @@
             "id": "1",
             "name": "development"
         },
-        {
-            "type": "qna",
-            "id": "3",
-      "name": "RoyaltyInfo2018",
-	"kbId": "1b4fd03dYourNumberHere000008565e3e7",
-      "subscriptionKey": "5dd61YourNumberHere00000a579b",
-      "endpointKey": "f892caa4-Your-Number-Here34233f2f",
-      "hostname": "https://yourqnaservice.azurewebsites.net/qnamaker",        },
+      {
+        "type": "qna",
+        "id": "3",
+        "name": "RoyaltyInfo2018",
+        "kbId": "1b4fd03dYourNumberHere000008565e3e7",
+        "subscriptionKey": "5dd61YourNumberHere00000a579b",
+        "endpointKey": "f892caa4-Your-Number-Here34233f2f",
+        "hostname": "https://yourqnaservice.azurewebsites.net/qnamaker"
+
+      },
       {
         "type": "endpoint",
         "endpoint": "http://localhost:52717/api/messages",

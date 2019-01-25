@@ -15,5 +15,15 @@ namespace SimplifiedWaterfallDialogBotV4
         public string Color { get; set; }
         public string Food { get; set;  }
 
+        public string ITName { get; set; }
+        public string ITEmail { get; set; }
+
+        public string PassResetEmail { get; set; }
+        public string PassResetMobileNumber { get; set; }
+        public string PassResetOTPDevice { get; set; }
+
+        public string PassResetBirthDate { get; set; }
+
+
     }
 }

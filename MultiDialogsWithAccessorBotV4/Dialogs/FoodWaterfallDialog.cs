@@ -22,6 +22,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             AddStep(FirstStepAsync);
             AddStep(NameStepAsync);
             AddStep(NameConfirmStepAsync);
+            AddStep(ITEmailConfirmStepAsync);
             AddStep(Hero1StepAsync);
             AddStep(Hero1ConfirmStepAsync);
         }
@@ -30,15 +31,17 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
         {
             // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
             // Running a prompt here means the next WaterfallStep will be run when the users response is received.
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text($"FOOD WATERFALL STEP 1: This is the first step.  You can put your code in each of these steps."), cancellationToken);
+            //await stepContext.Context.SendActivityAsync(MessageFactory.Text($"FOOD WATERFALL STEP 1: This is the first step.  You can put your code in each of these steps."), cancellationToken);
             return await stepContext.NextAsync("Data from First Step", cancellationToken);
         }
 
         private static async Task<DialogTurnResult> NameStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             string stringFromFirstStep = (string)stepContext.Result;
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text($"FOOD WATERFALL STEP 2: You can pass objects/strings step-to-step like this: {stringFromFirstStep}"), cancellationToken);
-            return await stepContext.PromptAsync("foodName", new PromptOptions { Prompt = MessageFactory.Text("What is your favorite food?") }, cancellationToken);
+            await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Welcome to new user registration."), cancellationToken);
+
+            //await stepContext.Context.SendActivityAsync(MessageFactory.Text($"FOOD WATERFALL STEP 2: You can pass objects/strings step-to-step like this: {stringFromFirstStep}"), cancellationToken);
+            return await stepContext.PromptAsync("foodName", new PromptOptions { Prompt = MessageFactory.Text("What is your name?") }, cancellationToken);
         }
 
         private async Task<DialogTurnResult> NameConfirmStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -51,12 +54,28 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
 
             //WITH SAVING STATE WITH ACCESSOR TO 'THEUSERSTATE'
             var botState = await (stepContext.Context.TurnState["DialogBotConversationStateAndUserStateAccessor"] as DialogBotConversationStateAndUserStateAccessor).TheUserProfile.GetAsync(stepContext.Context);
-            botState.Food = stepContext.Result.ToString();
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text($"FOOD WATERFALL STEP 3: I like {botState.Food} as well!"), cancellationToken);
+            botState.ITName = stepContext.Result.ToString();
+
+            return await stepContext.PromptAsync("foodITEmail", new PromptOptions { Prompt = MessageFactory.Text("What is your email address?") }, cancellationToken);
+            
+            //await stepContext.Context.SendActivityAsync(MessageFactory.Text($"FOOD WATERFALL STEP 3: I like {botState.Food} as well!"), cancellationToken);
             //END-WITH SAVING STATE WITH ACCESSOR TO 'THEUSERSTATE'
 
-            return await stepContext.NextAsync(null, cancellationToken);
+            //return await stepContext.NextAsync(null, cancellationToken);
+            
+        }
 
+        private async Task<DialogTurnResult> ITEmailConfirmStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+  
+            //WITH SAVING STATE WITH ACCESSOR TO 'THEUSERSTATE'
+            var botState = await (stepContext.Context.TurnState["DialogBotConversationStateAndUserStateAccessor"] as DialogBotConversationStateAndUserStateAccessor).TheUserProfile.GetAsync(stepContext.Context);
+            botState.ITEmail = stepContext.Result.ToString();
+            await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Thank you for registering {botState.ITName}. "), cancellationToken);
+            await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Our records indicate your closest IT helpdesk is in Building 1 (First floor, Southeast corner).  It is staffed from 9am-5pm Monday to Friday by Jim Morrow and Tim Bow."), cancellationToken);
+            await stepContext.Context.SendActivityAsync(MessageFactory.Text($"You'll receive confirmation of your registration to your email address: {botState.ITEmail}."), cancellationToken);
+
+            return await stepContext.EndDialogAsync(null, cancellationToken);
 
         }
 

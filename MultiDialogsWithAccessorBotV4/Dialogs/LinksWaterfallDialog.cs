@@ -27,11 +27,13 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             public LinksWaterfallDialog(string dialogId, IEnumerable<WaterfallStep> steps)
                 : base(dialogId, steps)
             {
+                AddStep(ShowHeroCardsStepAsync);
+
                 AddStep(FirstStepAsync);
-                AddStep(NameStepAsync);
-                AddStep(NameConfirmStepAsync);
-                AddStep(Hero1StepAsync);
-                AddStep(Hero1ConfirmStepAsync);
+                //AddStep(NameStepAsync);
+                //AddStep(NameConfirmStepAsync);
+                //AddStep(Hero1StepAsync);
+                //AddStep(Hero1ConfirmStepAsync);
             }
 
             private static async Task<DialogTurnResult> FirstStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -150,8 +152,39 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
 
             }
 
-            //METHODS FOR GRABBING SPECIFIC CARDS
-            private static HeroCard GetHeroCard1()
+        private async Task<DialogTurnResult> ShowHeroCardsStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Below you'll find the most important IT links to keep handy:"), cancellationToken);
+
+                var reply = stepContext.Context.Activity.CreateReply();
+                //reply.Attachments = new List<Attachment>();
+                //reply.Attachments.Add(GetHeroCard1().ToAttachment());
+
+                reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+                //reply.Attachments.Add(CreateAdaptiveCardAttachment());
+                //reply.Attachments.Add(GetHeroCard().ToAttachment());
+                reply.Attachments.Add(GetHeroCard1().ToAttachment());
+                reply.Attachments.Add(GetHeroCard2().ToAttachment());
+                reply.Attachments.Add(GetHeroCard3().ToAttachment());
+                reply.Attachments.Add(GetHeroCard4().ToAttachment());
+                reply.Attachments.Add(GetHeroCard5().ToAttachment());
+
+
+
+                // Send the card(s) to the user as an attachment to the activity
+                await stepContext.Context.SendActivityAsync(reply, cancellationToken);
+
+                await Task.Delay(5000);
+
+                //return await stepContext.NextAsync(null, cancellationToken);
+                return await stepContext.EndDialogAsync(null, cancellationToken);
+
+        }
+
+
+        //METHODS FOR GRABBING SPECIFIC CARDS
+        private static HeroCard GetHeroCard1()
             {
                 var heroCard = new HeroCard
                 {

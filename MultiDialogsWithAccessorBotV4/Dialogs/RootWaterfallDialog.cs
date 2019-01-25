@@ -48,9 +48,9 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
                     Prompt = MessageFactory.Text("What would you like to talk about today?"),
                     Choices = new[]
                     {
-                        new Choice { Value = "Favorite Food" },
+                        new Choice { Value = "New User" },
                         new Choice { Value = "Favorite Color" },
-                        new Choice { Value = "Favorite Links"},
+                        new Choice { Value = "IT Links"},
                         new Choice { Value = "Third Waterfall" },
                     },
                 }, cancellationToken);
@@ -59,7 +59,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
         {
             var chosenDialogResponse = (stepContext.Result as FoundChoice)?.Value;
 
-            if (chosenDialogResponse == "Favorite Food")
+            if (chosenDialogResponse == "New User")
             {
                 return await stepContext.BeginDialogAsync(FoodWaterfallDialog.DialogId);
             }
@@ -69,7 +69,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
                 return await stepContext.BeginDialogAsync(ColorWaterfallDialog.DialogId);
             }
 
-            if (chosenDialogResponse == "Favorite Links")
+            if (chosenDialogResponse == "IT Links")
             {
                 return await stepContext.BeginDialogAsync(LinksWaterfallDialog.DialogId);
             }
