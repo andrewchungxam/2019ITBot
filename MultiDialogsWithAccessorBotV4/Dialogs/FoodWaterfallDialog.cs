@@ -108,9 +108,12 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             //botState.ITEmail = stepContext.Result.ToString();
             var resultImageUpload = stepContext.Result;
 
+            var theActivity = stepContext.Context.Activity;
+            var theReply = theActivity.CreateReply();
 
-            List<string> returnedMessage = HandleIncomingAttachmentAsync(activity, reply).GetAwaiter().GetResult();
-
+            //List<string> returnedMessage = HandleIncomingAttachmentAsync(activity, reply).GetAwaiter().GetResult();
+            List<string> returnedMessage = HandleIncomingAttachmentAsync(stepContext.Context.Activity, theReply).GetAwaiter().GetResult();
+            
             await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Thank you for registering {botState.ITName}. "), cancellationToken);
             await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Our records indicate your closest IT helpdesk is in Building 1 (First floor, Southeast corner).  It is staffed from 9am-5pm Monday to Friday by Jim Morrow and Tim Bow."), cancellationToken);
             await stepContext.Context.SendActivityAsync(MessageFactory.Text($"You'll receive confirmation of your registration to your email address: {botState.ITEmail}."), cancellationToken);
@@ -207,6 +210,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             return heroCard;
         }
 
+        //private static async Task<List<string>> HandleIncomingAttachmentAsync(IMessageActivity activity, IMessageActivity reply)
         private static async Task<List<string>> HandleIncomingAttachmentAsync(IMessageActivity activity, IMessageActivity reply)
         {
             List<string> listOfString = new List<string>();

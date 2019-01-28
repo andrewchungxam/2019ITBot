@@ -26,6 +26,7 @@
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.0.6" />
     <PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="2.1.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
+    <PackageReference Include="ZXing.Net.Bindings.Windows.Compatibility" Version="0.16.6" />
   </ItemGroup>
 
 
