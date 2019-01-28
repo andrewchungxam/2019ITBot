@@ -1,6 +1,7 @@
 ﻿// Licensed under the MIT License.
 
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -37,6 +38,9 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             _dialogSet.Add(new TextPrompt("linksName"));
             _dialogSet.Add(new TextPrompt("foodName"));
             _dialogSet.Add(new TextPrompt("foodITEmail"));
+//            _dialogSet.Add(new TextPrompt("promptITBarcode"));
+
+            _dialogSet.Add(new AttachmentPrompt("promptITBarcode"));
             _dialogSet.Add(new TextPrompt("passResetBirthDate"));
             _dialogSet.Add(new TextPrompt("passResetPhoneNumber"));
             _dialogSet.Add(new TextPrompt("passResetOTPDevice"));
@@ -133,6 +137,22 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
                                 }
                             }
                         }
+                        //else if (dialogContext.ActiveDialog.Id == "foodDialog")
+                        //{
+                        //    if (turnContext.Activity.Attachments != null && turnContext.Activity.Attachments.Any())
+                        //    {
+                        //        int hi5 = 5;
+                        //    }
+                        //    else
+                        //    { 
+                        //        int hi4 = 4;
+                        //    }
+
+                        //    //    if (turnContext.Activity.Type == ActivityTypes.Message && turnContext.Activity.Text == "Back")
+                        //    //{
+                        //    //    await dialogContext.CancelAllDialogsAsync();
+                        //    //}
+                        //}
                     }
                 }
 

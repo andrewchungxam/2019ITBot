@@ -17,6 +17,7 @@ namespace SimplifiedWaterfallDialogBotV4
 
         public string ITName { get; set; }
         public string ITEmail { get; set; }
+        public string ITBarcode { get; set; }
 
         public string PassResetEmail { get; set; }
         public string PassResetMobileNumber { get; set; }

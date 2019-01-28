@@ -2,11 +2,15 @@
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using SimplifiedWaterfallDialogBotV4.BotAccessor;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,6 +27,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             AddStep(NameStepAsync);
             AddStep(NameConfirmStepAsync);
             AddStep(ITEmailConfirmStepAsync);
+            AddStep(ITBarcodeConfirmStepAsync);
             AddStep(Hero1StepAsync);
             AddStep(Hero1ConfirmStepAsync);
         }
@@ -65,19 +70,56 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             
         }
 
+        //private async Task<DialogTurnResult> ITEmailConfirmStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        //{
+
+        //    //WITH SAVING STATE WITH ACCESSOR TO 'THEUSERSTATE'
+        //    var botState = await (stepContext.Context.TurnState["DialogBotConversationStateAndUserStateAccessor"] as DialogBotConversationStateAndUserStateAccessor).TheUserProfile.GetAsync(stepContext.Context);
+        //    botState.ITEmail = stepContext.Result.ToString();
+        //    await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Thank you for registering {botState.ITName}. "), cancellationToken);
+        //    await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Our records indicate your closest IT helpdesk is in Building 1 (First floor, Southeast corner).  It is staffed from 9am-5pm Monday to Friday by Jim Morrow and Tim Bow."), cancellationToken);
+        //    await stepContext.Context.SendActivityAsync(MessageFactory.Text($"You'll receive confirmation of your registration to your email address: {botState.ITEmail}."), cancellationToken);
+
+        //    return await stepContext.EndDialogAsync(null, cancellationToken);
+    
+        //}
+
         private async Task<DialogTurnResult> ITEmailConfirmStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-  
+
             //WITH SAVING STATE WITH ACCESSOR TO 'THEUSERSTATE'
             var botState = await (stepContext.Context.TurnState["DialogBotConversationStateAndUserStateAccessor"] as DialogBotConversationStateAndUserStateAccessor).TheUserProfile.GetAsync(stepContext.Context);
             botState.ITEmail = stepContext.Result.ToString();
+            //await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Thank you for registering {botState.ITName}. "), cancellationToken);
+            //await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Our records indicate your closest IT helpdesk is in Building 1 (First floor, Southeast corner).  It is staffed from 9am-5pm Monday to Friday by Jim Morrow and Tim Bow."), cancellationToken);
+            //await stepContext.Context.SendActivityAsync(MessageFactory.Text($"You'll receive confirmation of your registration to your email address: {botState.ITEmail}."), cancellationToken);
+
+            //return await stepContext.EndDialogAsync(null, cancellationToken);
+            //return await stepContext.PromptAsync("promptITBarcode", new PromptOptions { Prompt = MessageFactory.Text("Upload an image of your computer's barcode tag so we can scan it.") }, cancellationToken);
+
+            return await stepContext.PromptAsync("promptITBarcode", new PromptOptions { Prompt = MessageFactory.Text("Upload an image of your computer's barcode tag so we can scan it.") }, cancellationToken);
+        }
+
+        private async Task<DialogTurnResult> ITBarcodeConfirmStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+
+            //WITH SAVING STATE WITH ACCESSOR TO 'THEUSERSTATE'
+            var botState = await (stepContext.Context.TurnState["DialogBotConversationStateAndUserStateAccessor"] as DialogBotConversationStateAndUserStateAccessor).TheUserProfile.GetAsync(stepContext.Context);
+            //botState.ITEmail = stepContext.Result.ToString();
+            var resultImageUpload = stepContext.Result;
+
+
+            List<string> returnedMessage = HandleIncomingAttachmentAsync(activity, reply).GetAwaiter().GetResult();
+
             await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Thank you for registering {botState.ITName}. "), cancellationToken);
             await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Our records indicate your closest IT helpdesk is in Building 1 (First floor, Southeast corner).  It is staffed from 9am-5pm Monday to Friday by Jim Morrow and Tim Bow."), cancellationToken);
             await stepContext.Context.SendActivityAsync(MessageFactory.Text($"You'll receive confirmation of your registration to your email address: {botState.ITEmail}."), cancellationToken);
+            await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Your computer is registered as {botState.ITBarcode}.  We'll have that on file for your future inquiries."), cancellationToken);
 
             return await stepContext.EndDialogAsync(null, cancellationToken);
 
         }
+
 
         private async Task<DialogTurnResult> Hero1StepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
@@ -164,6 +206,59 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
 
             return heroCard;
         }
+
+        private static async Task<List<string>> HandleIncomingAttachmentAsync(IMessageActivity activity, IMessageActivity reply)
+        {
+            List<string> listOfString = new List<string>();
+
+            foreach (var file in activity.Attachments)
+            {
+                // Determine where the file is hosted.
+                var remoteFileUrl = file.ContentUrl;
+
+                // Save the attachment to the system temp directory.
+                var localFileName = Path.Combine(Path.GetTempPath(), file.Name);
+
+                // Download the actual attachment
+                using (var webClient = new WebClient())
+                {
+                    webClient.DownloadFile(remoteFileUrl, localFileName);
+
+                }
+
+                var serviceUrl = reply.ServiceUrl;
+                var connector = new ConnectorClient(new Uri(serviceUrl));
+                var imageAttachment = file; //this is the localfile
+                byte[] sampleByteArray = await GetImageByteStreamDirectly(connector, imageAttachment);
+
+                var bcss = new BarcodeScannerService();
+                var returnedString = bcss.DecodeBarcode(sampleByteArray);
+
+                listOfString.Add(returnedString);
+            }
+
+            return listOfString;
+        }
+
+        private static async Task<byte[]> GetImageByteStreamDirectly(ConnectorClient connector, Attachment imageAttachment)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                // The Skype attachment URLs are secured by JwtToken,
+                // you should set the JwtToken of your bot as the authorization header for the GET request your bot initiates to fetch the image.
+                // https://github.com/Microsoft/BotBuilder/issues/662
+                var uri = new Uri(imageAttachment.ContentUrl);
+                //if (uri.Host.EndsWith("skype.com") && uri.Scheme == "https")
+                //{
+                //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetTokenAsync(connector));
+                //httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/octet-stream"));
+                //}
+
+                return await httpClient.GetByteArrayAsync(uri);
+            }
+        }
+
+
 
     }
 }
