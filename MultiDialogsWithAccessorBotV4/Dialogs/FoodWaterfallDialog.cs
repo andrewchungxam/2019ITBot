@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -113,6 +114,19 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
 
             //List<string> returnedMessage = HandleIncomingAttachmentAsync(activity, reply).GetAwaiter().GetResult();
             List<string> returnedMessage = HandleIncomingAttachmentAsync(stepContext.Context.Activity, theReply).GetAwaiter().GetResult();
+            //botState.ITBarcode = returnedMessage.FirstOrDefault().ToString();
+
+            var newStringBuilder = new StringBuilder();
+
+            int count = 0;
+            foreach (var individualReturnedMessage in returnedMessage)
+            {
+                ++count;
+                newStringBuilder.Append($"Message {count}: {individualReturnedMessage}");
+                //resultWriter.WriteLine("METADATA:{0}:{1}", metaData.Key, metaData.Value);
+            }
+
+            botState.ITBarcode = newStringBuilder.ToString();
             
             await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Thank you for registering {botState.ITName}. "), cancellationToken);
             await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Our records indicate your closest IT helpdesk is in Building 1 (First floor, Southeast corner).  It is staffed from 9am-5pm Monday to Friday by Jim Morrow and Tim Bow."), cancellationToken);
