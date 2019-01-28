@@ -48,10 +48,10 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
                     Prompt = MessageFactory.Text("How can I help?"),
                     Choices = new[]
                     {
-                        new Choice { Value = "New User" },
+                        new Choice { Value = "New Employee" },
                         new Choice { Value = "Password Reset" },
                         new Choice { Value = "IT Links"},
-                        new Choice { Value = "Third Waterfall" },
+                        new Choice { Value = "GitHub FAQ" },
                     },
                 }, cancellationToken);
         }
@@ -59,7 +59,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
         {
             var chosenDialogResponse = (stepContext.Result as FoundChoice)?.Value;
 
-            if (chosenDialogResponse == "New User")
+            if (chosenDialogResponse == "New Employee")
             {
                 return await stepContext.BeginDialogAsync(FoodWaterfallDialog.DialogId);
             }
@@ -73,7 +73,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             {
                 return await stepContext.BeginDialogAsync(LinksWaterfallDialog.DialogId);
             }
-            if (chosenDialogResponse == "Third Waterfall")
+            if (chosenDialogResponse == "GitHub FAQ")
             {
                 return await stepContext.BeginDialogAsync(ThirdWaterfallDialog.DialogId);
             }

@@ -115,7 +115,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
 
             //END-WITH SAVING STATE WITH ACCESSOR TO 'THEUSERSTATE'
 
-            await Task.Delay(7000);
+            await Task.Delay(4000);
             
             return await stepContext.EndDialogAsync(null, cancellationToken);
         }

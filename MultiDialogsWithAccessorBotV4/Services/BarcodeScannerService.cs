@@ -80,14 +80,23 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
 
                     bmp.Dispose();
 
+                    //foreach (var metaData in result.ResultMetadata)
+                    //{
+                    //    newStringBuilder.Append($"Metadata:{metaData.Key}: {metaData.Value}");
+                    //    newStringBuilder.Append(Environment.NewLine);
+                    //    newStringBuilder.Append($"Barcode Format: {result.BarcodeFormat.ToString()}");
+                    //    newStringBuilder.Append(Environment.NewLine);
+                    //    newStringBuilder.Append($"Text:{result.ToString()}");
+                    //    //resultWriter.WriteLine("METADATA:{0}:{1}", metaData.Key, metaData.Value);
+                    //}
+
                     foreach (var metaData in result.ResultMetadata)
                     {
-                        newStringBuilder.Append($"Metadata:{metaData.Key}: {metaData.Value}");
-                        newStringBuilder.Append(Environment.NewLine);
-                        newStringBuilder.Append($"Barcode Format: {result.BarcodeFormat.ToString()}");
-                        newStringBuilder.Append(Environment.NewLine);
-                        newStringBuilder.Append($"Text:{result.ToString()}");
-                        //resultWriter.WriteLine("METADATA:{0}:{1}", metaData.Key, metaData.Value);
+                        //newStringBuilder.Append($"Metadata:{metaData.Key}: {metaData.Value}");
+                        //newStringBuilder.Append(Environment.NewLine);
+                        //newStringBuilder.Append($"Barcode Format: {result.BarcodeFormat.ToString()}");
+                        //newStringBuilder.Append(Environment.NewLine);
+                        newStringBuilder.Append($"{result.ToString()}");
                     }
 
                     return newStringBuilder.ToString();

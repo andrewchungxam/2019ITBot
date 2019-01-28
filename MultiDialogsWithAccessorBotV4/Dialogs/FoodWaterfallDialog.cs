@@ -122,8 +122,10 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             foreach (var individualReturnedMessage in returnedMessage)
             {
                 ++count;
-                newStringBuilder.Append($"Message {count}: {individualReturnedMessage}");
-                //resultWriter.WriteLine("METADATA:{0}:{1}", metaData.Key, metaData.Value);
+                //newStringBuilder.Append($"Message {count}: {individualReturnedMessage}");
+                newStringBuilder.Append($"{individualReturnedMessage}");
+
+
             }
 
             botState.ITBarcode = newStringBuilder.ToString();
@@ -134,7 +136,6 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Your computer is registered as {botState.ITBarcode}.  We'll have that on file for your future inquiries."), cancellationToken);
 
             return await stepContext.EndDialogAsync(null, cancellationToken);
-
         }
 
 
