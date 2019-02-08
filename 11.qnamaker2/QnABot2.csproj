@@ -5,6 +5,14 @@
     <CodeAnalysisRuleSet>BotBuilder.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="BotConfiguration.bot" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="BotConfiguration.bot" />
+  </ItemGroup>
+
  <ItemGroup>
     <None Update="*.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

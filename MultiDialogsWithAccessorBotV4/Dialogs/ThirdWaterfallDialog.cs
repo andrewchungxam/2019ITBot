@@ -97,24 +97,24 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
         }
         private static async Task<DialogTurnResult> FirstStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
+            //TEST ON BEHALF OF TEAMS
+            //var welcomeUserState = await (stepContext.Context.TurnState["DialogBotConversationStateAndUserStateAccessor"] as DialogBotConversationStateAndUserStateAccessor).WelcomeUserState.GetAsync(stepContext.Context);
+            //if (welcomeUserState.DidSeeVideo == false)
+            //{
+            //    welcomeUserState.DidSeeVideo = true;
 
-            var welcomeUserState = await (stepContext.Context.TurnState["DialogBotConversationStateAndUserStateAccessor"] as DialogBotConversationStateAndUserStateAccessor).WelcomeUserState.GetAsync(stepContext.Context);
-            if (welcomeUserState.DidSeeVideo == false)
-            {
-                welcomeUserState.DidSeeVideo = true;
+            //    // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
+            //    // Running a prompt here means the next WaterfallStep will be run when the users response is received.
+            //    //await stepContext.Context.SendActivityAsync(MessageFactory.Text($"THIRD WATERFALL STEP 1: This is the first step.  You can put your code in each of these steps."), cancellationToken);
 
-                // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
-                // Running a prompt here means the next WaterfallStep will be run when the users response is received.
-                //await stepContext.Context.SendActivityAsync(MessageFactory.Text($"THIRD WATERFALL STEP 1: This is the first step.  You can put your code in each of these steps."), cancellationToken);
+            //    var reply = stepContext.Context.Activity.CreateReply();
+            //    reply.Attachments = new List<Attachment>();
+            //    reply.Attachments.Add(GetVideoCard().ToAttachment());
+            //    // Send the card(s) to the user as an attachment to the activity
+            //    await stepContext.Context.SendActivityAsync(reply, cancellationToken);
 
-                var reply = stepContext.Context.Activity.CreateReply();
-                reply.Attachments = new List<Attachment>();
-                reply.Attachments.Add(GetVideoCard().ToAttachment());
-                // Send the card(s) to the user as an attachment to the activity
-                await stepContext.Context.SendActivityAsync(reply, cancellationToken);
-
-                await Task.Delay(3000);
-            }
+            //    await Task.Delay(3000);
+            //}
 
             return await stepContext.NextAsync("Data from First Step", cancellationToken);
 

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "11 MultiDialogsWithAccessorBotV4", "MultiDialogsWithAccessorBotV4\11 MultiDialogsWithAccessorBotV4.csproj", "{937F69D6-4E15-4E02-B02C-117474B1731E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiDialogsWithAccessorBotV4", "MultiDialogsWithAccessorBotV4\MultiDialogsWithAccessorBotV4.csproj", "{937F69D6-4E15-4E02-B02C-117474B1731E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QnABot2", "11.qnamaker2\QnABot2.csproj", "{8EA4F7A4-6281-4937-8D44-5D23C00D0EAD}"
 EndProject

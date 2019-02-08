@@ -1,47 +1,37 @@
 {
     "name": "Bot_Builder_Simplified_Echo_Bot_V4",
     "description": "",
-    "services": [
-        {
-            "type": "endpoint",
-            "appId": "",
-            "appPassword": "",
-            "endpoint": "http://localhost:3978/api/messages",
-            "id": "1",
-            "name": "development"
-        },
-      {
-        "type": "qna",
-        "id": "3",
+  "services": [
+    {
+      "type": "endpoint",
+      "appId": "",
+      "appPassword": "",
+      "endpoint": "http://localhost:3978/api/messages",
+      "id": "1",
+      "name": "development"
+    },
+    {
+      "type": "endpoint",
+      "appId": "FILL-IN",
+      "appPassword": "FILL-IN",
+      "endpoint": "https://FILL-IN.azurewebsites.net/api/messages",
+      "id": "2",
+      "name": "production"
+    },
+    {
+      "type": "qna",
+      "id": "3",
 
 
-        "name": "RoyaltyInfo2018",
-        "kbId": "1b4fd03dYourNumberHere000008565e3e7",
-        "subscriptionKey": "5dd61YourNumberHere00000a579b",
-        "endpointKey": "f892caa4-Your-Number-Here34233f2f",
-        "hostname": "https://yourqnaservice.azurewebsites.net/qnamaker"
+      "name": "GitHubEnterpriseFAQ",
+      "kbId": "FILL-IN",
+      "subscriptionKey": "FILL-IN",
+      "endpointKey": "FILL-IN",
+      "hostname": "https://FILL-IN.azurewebsites.net/qnamaker"
 
 
-      },
-      {
-        "type": "endpoint",
-        "endpoint": "http://localhost:52717/api/messages",
-        "name": "localhost52717",
-        "id": "96"
-      },
-        {
-            "type": "endpoint",
-            "endpoint": "http://localhost:52881/api/messages",
-            "name": "localhost52881",
-            "id": "223"
-        },
-        {
-            "type": "endpoint",
-            "endpoint": "http://localhost:3978/api/messages",
-            "name": "3978",
-            "id": "217"
-        }
-    ],
+    }
+  ],
     "padlock": "",
     "version": "2.0",
     "path": "C:\\Github\\2019ITBot\\MultiDialogsWithAccessorBotV4\\BotConfiguration.bot",

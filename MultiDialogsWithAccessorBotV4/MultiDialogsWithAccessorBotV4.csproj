@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <CodeAnalysisRuleSet>EchoBotWithCounter.ruleset</CodeAnalysisRuleSet>
+    <UserSecretsId>3e4906c2-1e95-4e7f-8a2d-1b8152ed67d8</UserSecretsId>
   </PropertyGroup>
 
 
