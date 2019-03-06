@@ -13,7 +13,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
     {
         public static string DialogId { get; } = "rootDialog";
         public static RootWaterfallDialog BotInstance { get; } = new RootWaterfallDialog(DialogId, null);
-        
+
         // YOU CAN DEFINE AS ARRAY AND THEN USE WHEN CALLING DIALOG-- BUT THIS ADDS SOME USAGE COMPLEXITY
         // ADDING 'ADD STEPS' IN CONSTRUCTOR LIMITS USAGE COMPLEXITY WHEN CALLING BOT
         //public WaterfallStep[] RootDialogWaterfallSteps { get; } = new WaterfallStep[]
@@ -23,7 +23,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
         //};
 
         public RootWaterfallDialog(string dialogId, IEnumerable<WaterfallStep> steps)
-            : base (dialogId, steps)
+            : base(dialogId, steps)
         {
             AddStep(FirstStepAsync);
             AddStep(PromptDialogChoiceStepAsync);
@@ -42,7 +42,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             string stringFromFirstStep = (string)stepContext.Result;
             //await stepContext.Context.SendActivityAsync(MessageFactory.Text($"ROOT WATERFALL STEP 2: You can pass objects/strings step-to-step like this: {stringFromFirstStep}"), cancellationToken);
 
-            return await stepContext.PromptAsync("dialogChoice", 
+            return await stepContext.PromptAsync("dialogChoice",
                 new PromptOptions
                 {
                     Prompt = MessageFactory.Text("How can I help?"),
@@ -51,7 +51,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
                         new Choice { Value = "New User" },
                         new Choice { Value = "Password Reset" },
                         new Choice { Value = "IT Links"},
-                        new Choice { Value = "Third Waterfall" },
+                        new Choice { Value = "Enterprise GitHub" },
                     },
                 }, cancellationToken);
         }
@@ -73,7 +73,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             {
                 return await stepContext.BeginDialogAsync(LinksWaterfallDialog.DialogId);
             }
-            if (chosenDialogResponse == "Third Waterfall")
+            if (chosenDialogResponse == "Enterprise GitHub")
             {
                 return await stepContext.BeginDialogAsync(ThirdWaterfallDialog.DialogId);
             }

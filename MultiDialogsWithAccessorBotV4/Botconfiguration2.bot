@@ -1,0 +1,18 @@
+{
+    "name": "Botconfiguration2",
+    "description": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:52717/api/messages",
+            "id": "5bb51630-404b-11e9-bd13-357f490dda80",
+            "name": "http://localhost:52717/api/messages"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0",
+    "overrides": null,
+    "path": "C:\\Github\\2019ITBot\\MultiDialogsWithAccessorBotV4\\Botconfiguration2.bot"
+}

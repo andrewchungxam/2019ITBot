@@ -1,4 +1,5 @@
-﻿using Microsoft.Bot.Builder;
+﻿
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using SimplifiedWaterfallDialogBotV4.BotAccessor;
@@ -107,13 +108,15 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
                 // Running a prompt here means the next WaterfallStep will be run when the users response is received.
                 //await stepContext.Context.SendActivityAsync(MessageFactory.Text($"THIRD WATERFALL STEP 1: This is the first step.  You can put your code in each of these steps."), cancellationToken);
 
-                var reply = stepContext.Context.Activity.CreateReply();
-                reply.Attachments = new List<Attachment>();
-                reply.Attachments.Add(GetVideoCard().ToAttachment());
-                // Send the card(s) to the user as an attachment to the activity
-                await stepContext.Context.SendActivityAsync(reply, cancellationToken);
 
-                await Task.Delay(3000);
+                //COMMENT OUT FOR TEAMS
+                //var reply = stepContext.Context.Activity.CreateReply();
+                //reply.Attachments = new List<Attachment>();
+                //reply.Attachments.Add(GetVideoCard().ToAttachment());
+                //// Send the card(s) to the user as an attachment to the activity
+                //await stepContext.Context.SendActivityAsync(reply, cancellationToken);
+
+                //await Task.Delay(3000);
             }
 
             return await stepContext.NextAsync("Data from First Step", cancellationToken);

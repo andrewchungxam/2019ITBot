@@ -1,9 +1,9 @@
-﻿
-using Microsoft.Bot.Builder;
+﻿using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
+using Newtonsoft.Json.Linq;
 using SimplifiedWaterfallDialogBotV4.BotAccessor;
 using System;
 using System.Collections.Generic;
@@ -63,12 +63,12 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             botState.ITName = stepContext.Result.ToString();
 
             return await stepContext.PromptAsync("foodITEmail", new PromptOptions { Prompt = MessageFactory.Text("What is your email address?") }, cancellationToken);
-            
+
             //await stepContext.Context.SendActivityAsync(MessageFactory.Text($"FOOD WATERFALL STEP 3: I like {botState.Food} as well!"), cancellationToken);
             //END-WITH SAVING STATE WITH ACCESSOR TO 'THEUSERSTATE'
 
             //return await stepContext.NextAsync(null, cancellationToken);
-            
+
         }
 
         //private async Task<DialogTurnResult> ITEmailConfirmStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -82,7 +82,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
         //    await stepContext.Context.SendActivityAsync(MessageFactory.Text($"You'll receive confirmation of your registration to your email address: {botState.ITEmail}."), cancellationToken);
 
         //    return await stepContext.EndDialogAsync(null, cancellationToken);
-    
+
         //}
 
         private async Task<DialogTurnResult> ITEmailConfirmStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -127,7 +127,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             }
 
             botState.ITBarcode = newStringBuilder.ToString();
-            
+
             await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Thank you for registering {botState.ITName}. "), cancellationToken);
             await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Our records indicate your closest IT helpdesk is in Building 1 (First floor, Southeast corner).  It is staffed from 9am-5pm Monday to Friday by Jim Morrow and Tim Bow."), cancellationToken);
             await stepContext.Context.SendActivityAsync(MessageFactory.Text($"You'll receive confirmation of your registration to your email address: {botState.ITEmail}."), cancellationToken);
@@ -155,12 +155,12 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             //return await stepContext.EndDialogAsync(null, cancellationToken);
             //return await stepContext.PromptAsync("confirmHero1", new ConfirmPrompt { Prompt = MessageFactory.Text($"{botState.Food} do you want to see Hero card 1?") }, cancellationToken);
 
-            return await stepContext.PromptAsync("confirmHero1",             
+            return await stepContext.PromptAsync("confirmHero1",
                 new PromptOptions
                 {
                     Prompt = MessageFactory.Text($"{botState.Food} do you want to see Hero card 1?"),
-                    Choices = new[]  
-                    {            
+                    Choices = new[]
+                    {
                         new Choice { Value = "Yes" },
                         new Choice { Value = "No" }
                     },
@@ -231,8 +231,11 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
 
             foreach (var file in activity.Attachments)
             {
+                //                List<Attachment> contextAttachmentResult = (List<Attachment>)stepContext.Result;
                 // Determine where the file is hosted.
-                var remoteFileUrl = file.ContentUrl;
+                //var remoteFileUrl = file.ContentUrl;
+                //var remoteFileUrl = ((JObject)contextAttachmentResult[0].Content)["downloadUrl"].ToString();
+                var remoteFileUrl = ((JObject)file.Content)["downloadUrl"].ToString();
 
                 // Save the attachment to the system temp directory.
                 var localFileName = Path.Combine(Path.GetTempPath(), file.Name);
@@ -246,8 +249,11 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
 
                 var serviceUrl = reply.ServiceUrl;
                 var connector = new ConnectorClient(new Uri(serviceUrl));
-                var imageAttachment = file; //this is the localfile
-                byte[] sampleByteArray = await GetImageByteStreamDirectly(connector, imageAttachment);
+                //var imageAttachment = file; //this is the localfile
+                var imageAttachment = localFileName;
+                //                byte[] sampleByteArray = await GetImageByteStreamDirectly(connector, imageAttachment);
+
+                byte[] sampleByteArray = await GetImageByteStreamDirectly(connector, remoteFileUrl);
 
                 var bcss = new BarcodeScannerService();
                 var returnedString = bcss.DecodeBarcode(sampleByteArray);
@@ -258,14 +264,23 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             return listOfString;
         }
 
-        private static async Task<byte[]> GetImageByteStreamDirectly(ConnectorClient connector, Attachment imageAttachment)
+        //private static async Task<byte[]> GetImageByteStreamDirectly(ConnectorClient connector, Attachment imageAttachment)
+        private static async Task<byte[]> GetImageByteStreamDirectly(ConnectorClient connector, string contentUrl)
+
         {
             using (var httpClient = new HttpClient())
             {
+                //OLD
+                //var uri = new Uri(imageAttachment.ContentUrl);
+
+                //NEW//
+                var uri = new Uri(contentUrl);
+
+
                 // The Skype attachment URLs are secured by JwtToken,
                 // you should set the JwtToken of your bot as the authorization header for the GET request your bot initiates to fetch the image.
                 // https://github.com/Microsoft/BotBuilder/issues/662
-                var uri = new Uri(imageAttachment.ContentUrl);
+                //var uri = new Uri(imageAttachment.ContentUrl);
                 //if (uri.Host.EndsWith("skype.com") && uri.Scheme == "https")
                 //{
                 //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetTokenAsync(connector));
