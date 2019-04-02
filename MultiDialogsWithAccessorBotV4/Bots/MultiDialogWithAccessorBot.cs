@@ -38,7 +38,6 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             _dialogSet.Add(new TextPrompt("linksName"));
             _dialogSet.Add(new TextPrompt("foodName"));
             _dialogSet.Add(new TextPrompt("foodITEmail"));
-//            _dialogSet.Add(new TextPrompt("promptITBarcode"));
 
             _dialogSet.Add(new AttachmentPrompt("promptITBarcode"));
             _dialogSet.Add(new TextPrompt("passResetBirthDate"));
@@ -56,7 +55,6 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             _dialogSet.Add(ThirdWaterfallDialog.BotInstance);
 
             _dialogSet.Add(new ChoicePrompt("confirmHero1"));
-            //_dialogSet.Add(new ConfirmPrompt("confirmHero1"));
             _dialogSet.Add(new ChoicePrompt("confirmHero1Links"));
             
             DialogBotConversationStateAndUserStateAccessor = accessor;
@@ -79,11 +77,6 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
 
             turnContext.TurnState.Add("DialogBotConversationStateAndUserStateAccessor", DialogBotConversationStateAndUserStateAccessor);
 
-            //var myWelcomeUserState = await DialogBotConversationStateAndUserStateAccessor.WelcomeUserState.GetAsync(turnContext, () => new WelcomeUserState(), cancellationToken);
-            //turnContext.TurnState.Add("DialogBotConversationStateAndUserStateAccessorMyWelcomeUserState", DialogBotConversationStateAndUserStateAccessor);
-            //turnContext.TurnState.Add("DialogBotConversationStateAndUserStateAccessor", DialogBotConversationStateAndUserStateAccessor);
-
-
             if (turnContext == null)
             {
                 throw new ArgumentNullException(nameof(turnContext));
@@ -92,7 +85,6 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 //Welcome to the Company IT Bot.  
-
                 if (myWelcomeUserState.DidBotWelcomeUser == false)
                 {
                     myWelcomeUserState.DidBotWelcomeUser = true;
@@ -103,16 +95,6 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
                     await turnContext.SendActivityAsync($"Welcome to the Company IT Bot - the best, first stop for your IT needs.", cancellationToken: cancellationToken);
 
                 }
-
-                ////QNA
-                //// Check QnA Maker model
-                //var response = await _services.QnAServices[QnAMakerKey].GetAnswersAsync(turnContext);
-                //if (response != null && response.Length > 0)
-                //{
-                //    await turnContext.SendActivityAsync(response[0].Answer, cancellationToken: cancellationToken);
-                //}
-                ////QNA
-
 
                 // Run the DialogSet - let the framework identify the current state of the dialog from
                 // the dialog stack and figure out what (if any) is the active dialog.
@@ -137,22 +119,6 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
                                 }
                             }
                         }
-                        //else if (dialogContext.ActiveDialog.Id == "foodDialog")
-                        //{
-                        //    if (turnContext.Activity.Attachments != null && turnContext.Activity.Attachments.Any())
-                        //    {
-                        //        int hi5 = 5;
-                        //    }
-                        //    else
-                        //    { 
-                        //        int hi4 = 4;
-                        //    }
-
-                        //    //    if (turnContext.Activity.Type == ActivityTypes.Message && turnContext.Activity.Text == "Back")
-                        //    //{
-                        //    //    await dialogContext.CancelAllDialogsAsync();
-                        //    //}
-                        //}
                     }
                 }
 
