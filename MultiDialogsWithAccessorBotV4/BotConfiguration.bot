@@ -1,49 +1,41 @@
 {
-    "name": "Bot_Builder_Simplified_Echo_Bot_V4",
-    "description": "",
-    "services": [
-        {
-            "type": "endpoint",
-            "appId": "",
-            "appPassword": "",
-            "endpoint": "http://localhost:3978/api/messages",
-            "id": "1",
-            "name": "development"
-        },
-      {
-        "type": "qna",
-        "id": "3",
-
-
-        "name": "RoyaltyInfo2018",
-        "kbId": "1b4fd03dYourNumberHere000008565e3e7",
-        "subscriptionKey": "5dd61YourNumberHere00000a579b",
-        "endpointKey": "f892caa4-Your-Number-Here34233f2f",
-        "hostname": "https://yourqnaservice.azurewebsites.net/qnamaker"
-
-
-      },
-      {
-        "type": "endpoint",
-        "endpoint": "http://localhost:52717/api/messages",
-        "name": "localhost52717",
-        "id": "96"
-      },
-        {
-            "type": "endpoint",
-            "endpoint": "http://localhost:52881/api/messages",
-            "name": "localhost52881",
-            "id": "223"
-        },
-        {
-            "type": "endpoint",
-            "endpoint": "http://localhost:3978/api/messages",
-            "name": "3978",
-            "id": "217"
-        }
-    ],
-    "padlock": "",
-    "version": "2.0",
-    "path": "C:\\Github\\2019ITBot\\MultiDialogsWithAccessorBotV4\\BotConfiguration.bot",
-    "overrides": null
+  "name": "Bot_Builder_Simplified_Echo_Bot_V4",
+  "description": "",
+  "services": [
+    {
+      "type": "endpoint",
+      "appId": "c5f96bf4-ADD-YOURS",
+      "appPassword": "qp-ADD-YOURS-*=",
+      "endpoint": "https://localhost:52717/api/messages",
+      "id": "1",
+      "name": "development"
+    },
+    {
+      "type": "endpoint",
+      "appId": "c5f96bf4-ADD-YOURS",
+      "appPassword": "qp-ADD-YOURS-*=",
+      "endpoint": "https://addyours.azurewebsites.net/api/messages",
+      "id": "2",
+      "name": "production"
+    },
+    {
+      "type": "qna",
+      "id": "3",
+      "name": "GitHubEnterpriseFAQ",
+      "kbId": "8e6dce89-ADD-YOURS",
+      "subscriptionKey": "5dd6-ADD-YOURS",
+      "endpointKey": "f892caa4-ADD-YOURS",
+      "hostname": "https://addyours.azurewebsites.net/addyours"
+    },
+    {
+      "type": "endpoint",
+      "endpoint": "http://localhost:3978/api/messages",
+      "name": "Development3978",
+      "id": "43"
+    }
+  ],
+  "padlock": "",
+  "version": "2.0",
+  "path": "C:\\Github\\2019ITBot\\MultiDialogsWithAccessorBotV4\\BotConfiguration.bot",
+  "overrides": null
 }
