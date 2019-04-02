@@ -1,11 +1,4 @@
-﻿
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Connector;
-using Microsoft.Bot.Schema;
-using SimplifiedWaterfallDialogBotV4.BotAccessor;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,6 +7,14 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Connector;
+using Microsoft.Bot.Schema;
+
+using SimplifiedWaterfallDialogBotV4.BotAccessor;
 
 namespace Bot_Builder_Simplified_Echo_Bot_V4
 {
@@ -61,29 +62,11 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             //WITH SAVING STATE WITH ACCESSOR TO 'THEUSERSTATE'
             var botState = await (stepContext.Context.TurnState["DialogBotConversationStateAndUserStateAccessor"] as DialogBotConversationStateAndUserStateAccessor).TheUserProfile.GetAsync(stepContext.Context);
             botState.ITName = stepContext.Result.ToString();
-
-            return await stepContext.PromptAsync("foodITEmail", new PromptOptions { Prompt = MessageFactory.Text("What is your email address?") }, cancellationToken);
-            
-            //await stepContext.Context.SendActivityAsync(MessageFactory.Text($"FOOD WATERFALL STEP 3: I like {botState.Food} as well!"), cancellationToken);
+            return await stepContext.PromptAsync("foodITEmail", new PromptOptions { Prompt = MessageFactory.Text("What is your email address?") }, cancellationToken);            
             //END-WITH SAVING STATE WITH ACCESSOR TO 'THEUSERSTATE'
-
-            //return await stepContext.NextAsync(null, cancellationToken);
-            
+            //return await stepContext.NextAsync(null, cancellationToken);    
         }
 
-        //private async Task<DialogTurnResult> ITEmailConfirmStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        //{
-
-        //    //WITH SAVING STATE WITH ACCESSOR TO 'THEUSERSTATE'
-        //    var botState = await (stepContext.Context.TurnState["DialogBotConversationStateAndUserStateAccessor"] as DialogBotConversationStateAndUserStateAccessor).TheUserProfile.GetAsync(stepContext.Context);
-        //    botState.ITEmail = stepContext.Result.ToString();
-        //    await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Thank you for registering {botState.ITName}. "), cancellationToken);
-        //    await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Our records indicate your closest IT helpdesk is in Building 1 (First floor, Southeast corner).  It is staffed from 9am-5pm Monday to Friday by Jim Morrow and Tim Bow."), cancellationToken);
-        //    await stepContext.Context.SendActivityAsync(MessageFactory.Text($"You'll receive confirmation of your registration to your email address: {botState.ITEmail}."), cancellationToken);
-
-        //    return await stepContext.EndDialogAsync(null, cancellationToken);
-    
-        //}
 
         private async Task<DialogTurnResult> ITEmailConfirmStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
@@ -91,12 +74,6 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             //WITH SAVING STATE WITH ACCESSOR TO 'THEUSERSTATE'
             var botState = await (stepContext.Context.TurnState["DialogBotConversationStateAndUserStateAccessor"] as DialogBotConversationStateAndUserStateAccessor).TheUserProfile.GetAsync(stepContext.Context);
             botState.ITEmail = stepContext.Result.ToString();
-            //await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Thank you for registering {botState.ITName}. "), cancellationToken);
-            //await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Our records indicate your closest IT helpdesk is in Building 1 (First floor, Southeast corner).  It is staffed from 9am-5pm Monday to Friday by Jim Morrow and Tim Bow."), cancellationToken);
-            //await stepContext.Context.SendActivityAsync(MessageFactory.Text($"You'll receive confirmation of your registration to your email address: {botState.ITEmail}."), cancellationToken);
-
-            //return await stepContext.EndDialogAsync(null, cancellationToken);
-            //return await stepContext.PromptAsync("promptITBarcode", new PromptOptions { Prompt = MessageFactory.Text("Upload an image of your computer's barcode tag so we can scan it.") }, cancellationToken);
 
             return await stepContext.PromptAsync("promptITBarcode", new PromptOptions { Prompt = MessageFactory.Text("Upload an image of your computer's barcode tag so we can scan it.") }, cancellationToken);
         }
@@ -112,9 +89,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             var theActivity = stepContext.Context.Activity;
             var theReply = theActivity.CreateReply();
 
-            //List<string> returnedMessage = HandleIncomingAttachmentAsync(activity, reply).GetAwaiter().GetResult();
             List<string> returnedMessage = HandleIncomingAttachmentAsync(stepContext.Context.Activity, theReply).GetAwaiter().GetResult();
-            //botState.ITBarcode = returnedMessage.FirstOrDefault().ToString();
 
             var newStringBuilder = new StringBuilder();
 
@@ -122,10 +97,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             foreach (var individualReturnedMessage in returnedMessage)
             {
                 ++count;
-                //newStringBuilder.Append($"Message {count}: {individualReturnedMessage}");
                 newStringBuilder.Append($"{individualReturnedMessage}");
-
-
             }
 
             botState.ITBarcode = newStringBuilder.ToString();
@@ -149,12 +121,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
 
             //WITH SAVING STATE WITH ACCESSOR TO 'THEUSERSTATE'
             var botState = await (stepContext.Context.TurnState["DialogBotConversationStateAndUserStateAccessor"] as DialogBotConversationStateAndUserStateAccessor).TheUserProfile.GetAsync(stepContext.Context);
-            //botState.Food = stepContext.Result.ToString(); //null from previous step
-            //           await stepContext.Context.SendActivityAsync(MessageFactory.Text($"FOOD WATERFALL STEP 3: I like {botState.Food} as well!"), cancellationToken);
             //END-WITH SAVING STATE WITH ACCESSOR TO 'THEUSERSTATE'
-
-            //return await stepContext.EndDialogAsync(null, cancellationToken);
-            //return await stepContext.PromptAsync("confirmHero1", new ConfirmPrompt { Prompt = MessageFactory.Text($"{botState.Food} do you want to see Hero card 1?") }, cancellationToken);
 
             return await stepContext.PromptAsync("confirmHero1",             
                 new PromptOptions
@@ -189,24 +156,15 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             else if (chosenDialogResponse == "No")
             {
                 //NO
-
                 var botState = await (stepContext.Context.TurnState["DialogBotConversationStateAndUserStateAccessor"] as DialogBotConversationStateAndUserStateAccessor).TheUserProfile.GetAsync(stepContext.Context);
-
                 await stepContext.Context.SendActivityAsync(MessageFactory.Text($"{botState.Food} you did not want to watch Hero card 1."), cancellationToken);
-
-                //return await stepContext.NextAsync(null, cancellationToken);
                 return await stepContext.EndDialogAsync(null, cancellationToken);
-
-
             }
 
             else
             {
                 return await stepContext.EndDialogAsync(null, cancellationToken);
-
             }
-
-
         }
 
         //METHODS FOR GRABBING SPECIFIC CARDS
@@ -225,7 +183,6 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             return heroCard;
         }
 
-        //private static async Task<List<string>> HandleIncomingAttachmentAsync(IMessageActivity activity, IMessageActivity reply)
         private static async Task<List<string>> HandleIncomingAttachmentAsync(IMessageActivity activity, IMessageActivity reply)
         {
             List<string> listOfString = new List<string>();
@@ -276,8 +233,5 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
                 return await httpClient.GetByteArrayAsync(uri);
             }
         }
-
-
-
     }
 }
