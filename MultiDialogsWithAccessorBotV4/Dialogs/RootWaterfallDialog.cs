@@ -1,11 +1,12 @@
-﻿using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Choices;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 
 namespace Bot_Builder_Simplified_Echo_Bot_V4
 {
@@ -30,6 +31,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             AddStep(LaunchDialogStepAsync);
             AddStep(LoopDialogStepAsync);
         }
+
         private static async Task<DialogTurnResult> FirstStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
@@ -37,10 +39,10 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
             //await stepContext.Context.SendActivityAsync(MessageFactory.Text($"ROOT WATERFALL STEP 1: This is the first step.  You can put your code in each of these steps."), cancellationToken);
             return await stepContext.NextAsync("Data from First Step", cancellationToken);
         }
+
         private static async Task<DialogTurnResult> PromptDialogChoiceStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             string stringFromFirstStep = (string)stepContext.Result;
-            //await stepContext.Context.SendActivityAsync(MessageFactory.Text($"ROOT WATERFALL STEP 2: You can pass objects/strings step-to-step like this: {stringFromFirstStep}"), cancellationToken);
 
             return await stepContext.PromptAsync("dialogChoice", 
                 new PromptOptions
@@ -55,6 +57,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
                     },
                 }, cancellationToken);
         }
+
         private async Task<DialogTurnResult> LaunchDialogStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var chosenDialogResponse = (stepContext.Result as FoundChoice)?.Value;
@@ -80,6 +83,7 @@ namespace Bot_Builder_Simplified_Echo_Bot_V4
 
             return await stepContext.NextAsync();
         }
+
         private async Task<DialogTurnResult> LoopDialogStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             await Task.Delay(3000);
