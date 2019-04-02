@@ -6,7 +6,7 @@
       "type": "endpoint",
       "appId": "",
       "appPassword": "",
-      "endpoint": "http://localhost:3978/api/messages",
+      "endpoint": "http://localhost:52717/api/messages",
       "id": "1",
       "name": "development"
     },
