@@ -1,4 +1,4 @@
-# 2019ITBot
+# IT Bot
 
 IT Bot with multiple dialogs, a QnA service, and barcode scanner functionality.
 
